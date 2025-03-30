@@ -1,0 +1,96 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzj.fzdx.mapper.GoodsMapper">
+
+    <sql id="baseSql">
+        goods_id,goods_name,goods_code,goods_stock_quantity,goods_purchase_price,goods_selling_price,goods_picture,goods_state
+    </sql>
+
+    <!-- 添加商品 -->
+    <insert id="insertByGoods" useGeneratedKeys="true" keyColumn="goods_id" keyProperty="goods.goodsId">
+        insert into goods(goods_id,goods_name,goods_code,goods_stock_quantity,goods_purchase_price,goods_selling_price,goods_picture,goods_state)
+        VALUES (null,#{goods.goodsName},#{goods.goodsCode},#{goods.goodsStockQuantity},#{goods.goodsPurchasePrice},#{goods.goodsSellingPrice},#{goods.goodsPicture},1)
+    </insert>
+
+    <!-- 查找所有商品 -->
+    <select id="findAllGoods" resultType="com.wzj.fzdx.pojo.Goods">
+        select
+        <include refid="baseSql"></include>
+        from goods where goods_state > 0
+    </select>
+
+    <!-- 根据id删除商品 -->
+    <update id="deleteGoodsById">
+        update goods set goods_state = -1 where goods_id = #{id}
+    </update>
+
+    <!-- 根据对象删除商品 -->
+    <update id="deleteGoodsByGoods">
+        update goods set goods_state = -1 where goods_id = #{goods.goodsId}
+    </update>
+
+    <!-- 条件查询商品 -->
+    <select id="selectGoodsByCondition" resultType="com.wzj.fzdx.pojo.Goods">
+        select
+        <include refid="baseSql"></include>
+        from goods
+        <where>
+            goods_state > 0
+
+            <if test="qo.goodsName != null and qo.goodsName != ''">
+                and goods_name like concat('%', #{qo.goodsName}, '%')
+            </if>
+
+            <choose>
+                <when test="qo.goodsCodeMin != null and qo.goodsCodeMax != null">
+                    and goods_code >= #{qo.goodsCodeMin} and #{qo.goodsCodeMax} >= goods_code
+                </when>
+                <when test="qo.goodsCodeMin != null">
+                    and goods_code = #{qo.goodsCodeMin}
+                </when>
+                <when test="qo.goodsCodeMax != null">
+                    and #{qo.goodsCodeMax} = goods_code
+                </when>
+            </choose>
+
+            <choose>
+                <when test="qo.goodsPurchasePriceMin != null and qo.goodsPurchasePriceMax != null">
+                    and goods_purchase_price >= #{qo.goodsPurchasePriceMin} and #{qo.goodsPurchasePriceMax} >= goods_purchase_price
+                </when>
+                <when test="qo.goodsPurchasePriceMin != null">
+                    and goods_purchase_price = #{qo.goodsPurchasePriceMin}
+                </when>
+                <when test="qo.goodsPurchasePriceMax != null">
+                    and #{qo.goodsPurchasePriceMax} = goods_purchase_price
+                </when>
+            </choose>
+
+            <choose>
+                <when test="qo.goodsSellingPriceMin != null and qo.goodsSellingPriceMax != null">
+                    and goods_selling_price >= #{qo.goodsSellingPriceMin} and #{qo.goodsSellingPriceMax} >= goods_selling_price
+                </when>
+
+                <when test="qo.goodsSellingPriceMin != null">
+                    and goods_selling_price = #{qo.goodsSellingPriceMin}
+                </when>
+
+                <when test=" qo.goodsSellingPriceMax != null">
+                    and #{qo.goodsSellingPriceMax} = goods_selling_price
+                </when>
+            </choose>
+
+
+        </where>
+        order by goods_id desc
+        limit #{qo.start}, #{qo.limit}
+    </select>
+
+    <!-- 根据id修改商品 -->
+    <update id="updateGoodsNameById">
+        update goods
+        set goods_name = #{goodsName}
+        where goods_id = #{goodsId}
+    </update>
+
+</mapper>

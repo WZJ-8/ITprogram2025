@@ -1,0 +1,58 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace就是这个xml所对应的接口文件的路径-->
+<mapper namespace="com.wzj.fzdx.mapper.AdminMapper">
+
+    <!--    id就是这个方法对应的在adminmapper接口对应的方法名-->
+    <select id="selectByNameAndPwd" resultType="Admin">
+        select * from admin where admin_username = #{name} and admin_password = #{p}
+    </select>
+
+<!--    mybatis驼峰转换规则：数据库字段遇到'_' 那么这个字段对于属性名字后一位要大写  -->
+<!--    mysql:admin_username -> adminUsername -->
+<!--    mysql:admin_user_name -> adminUserName -->
+    <sql id="baseSql">
+        admin_id, admin_username, admin_password, admin_state
+    </sql>
+
+    <select id="selectAllAdmin" resultType="com.wzj.fzdx.pojo.Admin">
+        select
+        <include refid="baseSql"></include>
+        from admin where admin_state > 0
+    </select>
+
+    <select id="selectAdminByCondition" resultType="com.wzj.fzdx.pojo.Admin">
+        select
+        <include refid="baseSql"></include>
+        from admin
+<!--        where admin_state = 1 and admin_username = ''-->
+<!--        mybatis条件查询-->
+<!--        4种条件-->
+<!--        where标签自动在语句后面添加where ，如果后面紧跟and会把这个and删掉-->
+        <where>
+<!--            如果 test 里面的条件成立，就把标签里面的语句拼接上去-->
+            <if test="qo.adminUsername != null and qo.adminUsername != '' ">
+<!--                adminUsername like '%123%'-->
+                and admin_username like concat('%',#{qo.adminUsername}, '%')
+            </if>
+
+            <if test="qo.adminState != null and qo.adminState != ''">
+                and admin_state = #{qo.adminState}
+            </if>
+        </where>
+<!--        根据admin_id倒序排序-->
+        order by admin_id desc
+        limit #{qo.start}, #{qo.limit}
+
+
+    </select>
+
+    <!--    userGenerateKeys开启主键返回-->
+    <insert id="insertByAdmin" useGeneratedKeys="true" keyColumn="admin_id" keyProperty="a.adminId">
+        INSERT INTO admin (admin_id, admin_username, admin_password, admin_state)
+        VALUES (null, #{a.adminUsername}, #{a.adminPassword}, 1)
+    </insert>
+
+</mapper>
+
