@@ -5,11 +5,12 @@ import com.wzj.fzdx.pojo.Admin;
 import com.wzj.fzdx.pojo.Goods;
 import com.wzj.fzdx.pojo.GoodsQo;
 import com.wzj.fzdx.services.GoodsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -92,6 +93,77 @@ public class GoodsControl {
         if (i > 0){
             jsonDto.setId(i);
             jsonDto.setMessage("修改成功");
+        }
+        return jsonDto;
+    }
+
+    @PostMapping("updateGoodsCodeById")
+    public JsonDto updateGoodsCodeById(HttpServletRequest request, Integer goodsId, Integer goodsCode){
+        JsonDto jsonDto = new JsonDto();
+        Integer i = goodsService.updateGoodsCodeById(goodsId, goodsCode);
+        if (i > 0){
+            jsonDto.setId(i);
+            jsonDto.setMessage("修改成功");
+        }
+        return jsonDto;
+    }
+
+    @PostMapping("updateGoodsStockQuantityById")
+    public JsonDto updateGoodsStockQuantityById(HttpServletRequest request, Integer goodsId, Integer goodsStockQuantity){
+        JsonDto jsonDto = new JsonDto();
+        Integer i = goodsService.updateGoodsStockQuantityById(goodsId, goodsStockQuantity);
+        if (i > 0){
+            jsonDto.setId(i);
+            jsonDto.setMessage("修改成功");
+        }
+        return jsonDto;
+    }
+
+    @PostMapping("updateGoodsPurchasePriceById")
+    public JsonDto updateGoodsPurchasePriceById(HttpServletRequest request, Integer goodsId, BigDecimal goodsPurchasePrice){
+        JsonDto jsonDto = new JsonDto();
+        Integer i = goodsService.updateGoodsPurchasePriceById(goodsId, goodsPurchasePrice);
+        if (i > 0){
+            jsonDto.setId(i);
+            jsonDto.setMessage("修改成功");
+        }
+        return jsonDto;
+    }
+
+    @PostMapping("updateGoodsSellingPriceById")
+    public JsonDto updateGoodsSellingPriceById(HttpServletRequest request, Integer goodsId, BigDecimal goodsSellingPrice){
+        JsonDto jsonDto = new JsonDto();
+        Integer i = goodsService.updateGoodsPurchasePriceById(goodsId, goodsSellingPrice);
+        if (i > 0){
+            jsonDto.setId(i);
+            jsonDto.setMessage("修改成功");
+        }
+        return jsonDto;
+    }
+
+    @PostMapping("updateGoodsPictureById")
+    public JsonDto updateGoodsPictureById(HttpServletRequest request, Integer goodsId, String goodsPicture){
+        JsonDto jsonDto = new JsonDto();
+        Integer i = goodsService.updateGoodsPictureById(goodsId, goodsPicture);
+        if (i > 0){
+            jsonDto.setId(i);
+            jsonDto.setMessage("修改成功");
+        }
+        return jsonDto;
+    }
+
+//    根据字段修改商品
+//    @PathVariable("/{example}")路径变量，设置路径变量动态选择请求url的路径
+    @PostMapping("updateGoodsFieldById")
+    public JsonDto updateGoodsFieldById(HttpServletRequest request,
+                                        Integer goodsId,
+                                        String field,
+                                        String value){
+        JsonDto jsonDto = new JsonDto();
+        Integer i = goodsService.updateGoodsFieldById(goodsId, field, value);
+        if (i > 0){
+            jsonDto.setId(i);
+            jsonDto.setMessage("修改字段"+ field +"成功");
         }
         return jsonDto;
     }

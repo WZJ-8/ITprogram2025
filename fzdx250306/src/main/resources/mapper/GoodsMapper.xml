@@ -87,9 +87,48 @@
     </select>
 
     <!-- 根据id修改商品 -->
+<!--修改商品名字-->
     <update id="updateGoodsNameById">
         update goods
         set goods_name = #{goodsName}
+        where goods_id = #{goodsId}
+    </update>
+
+<!--    修改商品代码-->
+    <update id="updateGoodsCodeById">
+        update goods
+        set goods_code = #{goodsCode}
+        where goods_id = #{goodsId}
+    </update>
+<!--    修改商品进货价格-->
+    <update id="updateGoodsPurchasePriceById">
+        update goods
+        set goods_purchase_price = #{goodsPurchasePrice}
+        where goods_id = #{goodsId}
+    </update>
+<!--    修改商品库存-->
+    <update id="updateGoodsStockQuantityById">
+        update goods
+        set goods_stock_quantity = #{goodsStockQuantity}
+        where goods_id = #{goodsId}
+    </update>
+<!--    修改商品销售价格-->
+    <update id="updateGoodsSellingPriceById">
+        update goods
+        set goods_selling_price = #{goodsSellingPrice}
+        where goods_id = #{goodsId}
+    </update>
+<!--    修改商品图片url-->
+    <update id="updateGoodsPictureById">
+        update goods
+        set goods_picture = #{goodsPicture}
+        where goods_id = #{goodsId}
+    </update>
+
+<!--    通过字段修改-->
+    <update id="updateGoodsFieldById">
+        update goods
+        set ${field} = #{value}
         where goods_id = #{goodsId}
     </update>
 

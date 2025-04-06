@@ -7,6 +7,7 @@ import com.wzj.fzdx.services.GoodsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -38,6 +39,41 @@ public class GoodsServiceImpl implements GoodsService {
     public Integer updateGoodsNameById(Integer goodsId, String goodsName) {
         Integer ret = goodsMapper.updateGoodsNameById(goodsId, goodsName);
         return ret;
+    }
+
+    @Override
+    public Integer updateGoodsCodeById(Integer goodsId, Integer goodsCode) {
+        Integer ret = goodsMapper.updateGoodsCodeById(goodsId, goodsCode);
+        return ret;
+    }
+
+    @Override
+    public Integer updateGoodsStockQuantityById(Integer goodsId, Integer goodsStockQuantity) {
+        Integer ret = goodsMapper.updateGoodsStockQuantityById(goodsId, goodsStockQuantity);
+        return ret;
+    }
+
+    @Override
+    public Integer updateGoodsPurchasePriceById(Integer goodsId, BigDecimal goodsPurchasePrice) {
+        Integer ret = goodsMapper.updateGoodsPurchasePriceById(goodsId, goodsPurchasePrice);
+        return ret;
+    }
+
+    @Override
+    public Integer updateGoodsSellingPriceById(Integer goodsId, BigDecimal goodsSellingPrice) {
+        Integer ret = goodsMapper.updateGoodsSellingPriceById(goodsId,goodsSellingPrice);
+        return ret;
+    }
+
+    @Override
+    public Integer updateGoodsPictureById(Integer goodsId, String goodsPicture) {
+        Integer ret = goodsMapper.updateGoodsPictureById(goodsId,goodsPicture);
+        return ret;
+    }
+
+    @Override
+    public Integer updateGoodsFieldById(Integer goodsId, String field, String value) {
+        return goodsMapper.updateGoodsFieldById(goodsId, field, value);
     }
 
     @Override
